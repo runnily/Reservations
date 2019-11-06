@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <!--title defined here, and so as the style of the page which is using bootstrap-->
+    <title>Reserve</title>
+    <link rel="stylesheet" media="screen" href="static/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body >
+    <!--A navigation bar for the user to click on.-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.exe-coll.ac.uk/">Exeter college</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/main">Home</a></li>
+                <li><a href="/filter">Filter</a></li>
+                <li><a href="/reserve">Reserve</a></li>
+                <li><a href="/bookings">Cancel</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+
+        <h2>Reservation details</h2>
+        <form action="/reserve" method="POST" role="form">
+            {{ form.csrf }}
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <br>
+                <!--an time input, this would create a drop down menu which the user can select from for a time-->
+                <select class="form-control" id="time" name="time">
+                    <option>08:00</option>
+                    <option>09:00</option>
+                    <option>10:00</option>
+                    <option>11:00</option>
+                    <option>12:00</option>
+                    <option>13:00</option>
+                    <option>14:00</option>
+                    <option>15:00</option>
+                    <option>16:00</option>
+                </select>
+                <br>
+                <!--a date input which the user can use to input a date-->
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" placeholder="Please enter the date of the reservation">
+                <br>
+                <label for="amountoftime">Please select the length of time:</label>
+                <br>
+                <!--the amount of time is limited to 1 hour only-->
+                <select class="form-control" id="amountoftime" name="amountoftime">
+                    <option>60</option>
+                </select>
+                <br>
+                <label for="computer">Select a computer: </label>
+                <br>
+                <!--this is an selection input. This statement is using jinja2 to allow the html code
+                    to display the amount of computers in the database.-->
+                <select name="computer" class= "form-control"  multi-ple=multiple id="computer">
+                    {% for computer in computers %}
+                    <option value="{{computer}}">{{computer}}</option>
+                    {% endfor %}
+                </select>
+
+            </div>
+            <!--this is a submit button which the user can select to re-serve a computer.-->
+            <button type="submit" class="btn btn-success">Reserve</button>
+        </form>
+
+        <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <!--use of jinja to display an error or a success.-->
+        {% for message in messages %}
+        {% if "Error" not in message[1]: %}
+        <div class="alert alert-info">
+            <strong>Success! </strong> {{ message[1] }}
+        </div>
+        {% endif %}
+
+        {% if "Error" in message[1]: %}
+        <div class="alert alert-warning">
+            {{ message[1] }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+    <br>
+    </div>
+    </div>
+</body>
+</html>
