@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.exe-coll.ac.uk/">Exeter college</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/main">Home</a></li>
+                <li><a href="/filter">Filter</a></li>
+                <li><a href="/reserve">Reserve</a></li>  <!--navigation bar-->
+                <li><a href="/bookings">Cancel</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <h2>Current Booked computers</h2>   <!--this code below creates a table to shown the amount of computers available and unavailable.-->
+        <p class="lead">
+            {{date}} This is the number computers reserved or inuse
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th id="8:00">8:00</th>
+                    <th id="9:00">9:00</th>
+                    <th id="10:00">10:00</th>
+                    <th id="11:00">11:00</th>
+                    <th id="12:00">12:00</th>
+                    <th id="13:00">13:00</th>
+                    <th id="14:00">14:00</th>
+                    <th id="15:00">15:00</th>
+                    <th id="16:00">16:00</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {%set count=0%} <!--set this to 0-->
+                    {%for computer in computers%} <!--creates a for loop to go through each computer within the list of computers in the database-->
+                        {%if count==0%} <!--this will tell the html when to create a new row-->
+                            <tr>
+                            <th scope="row">{{computer}}</th> <!--as it goes through each list each row would repersent a computer-->
+                        {%endif%}
+                        {%for time in tableTime%} <!--goes through a list, of times-->
+                            {%if time in computers[computer]%} <!--if the time is in the current values, identified by the key-->
+                                <td>Unavailable</td> <!--present this as unavailable-->
+                            {%else%}
+                                <td>Available</td> <!--else available-->
+                            {%endif%}
+                        {%endfor%}
+                        {% set count=count + 1%}
+                        {%if count==9%} <!--when all the reservations times are collected-->
+                            {set count=0} <!--it will set count to 0 to make a new row-->
+                        {%endif%}
+                    {%endfor%}
+                            
+            </tbody>
+        </table>
+</div>
