@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Filter</title> <!--defines the title-->
+    <link rel="stylesheet" media="screen" href="static/bootstrap.min.css" />
+    <link rel="stylesheet" href="static/bootstrap-theme.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+<body>
+    <!--below creates a class for the navigation bar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.exe-coll.ac.uk/">Exeter college</a>
+            </div>
+            <!---this would the elements with the naviagation bar, and would define where to go when clicked.-->
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/main">Home</a></li>
+                <li><a href="/filter">Filter</a></li>
+                <li><a href="/reserve">Reserve</a></li>
+                <li><a href="/bookings">Cancel</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+
+        <h2>Reservation details</h2>
+        <form action="/filter" method="POST" role="form">
+            {{ form.csrf }}
+            <div class="form-group">
+                <br />
+                <label for="choice">Select a filter:</label>
+                <br />
+                <select class="form-control" id="choice" name="choice">
+                    <!--this would create a drop down list for the user to use, and select how they would like to filter it.-->
+                    <option>Available</option>
+                    <option>Reserved</option>
+                    <option>Inuse</option>
+                    <option>Available and Reseerved</option>
+                    <option>Available and Inuse</option>
+                    <option>Reserved and Inuse</option>
+                </select>
+                <br />
+                <label for="filter">Results: </label> 
+
+            </div>
+            <button type="submit" class="btn btn-success">Filter</button>
+        </form>
+
+        <br />
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+
+        {% for message in messages %}
+        {% if "Error" not in message[1]: %}
+        <div class="alert alert-info">
+            <strong>Results: </strong> {{ message[1] }}
+        </div>
+        {% endif %}
+
+        {% if "Error" in message[1]: %}
+        <div class="alert alert-warning">
+            {{ message[1] }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+    <br />
+    </div>
+    </div>
+</body>
+</html>
