@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head> 
+    <title>Bookings!</title>  <!--this would define the tile of the html-->
+    <link rel="stylesheet" media="screen" href="static/bootstrap.min.css"> <!--this defines the style sheet (css file) which uses bootstrap-->
+    <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+    <!--below is a class created for the navigation bar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.exe-coll.ac.uk/">Exeter college</a> 
+            </div>
+            <ul class="nav navbar-nav">
+                <!--this would defines the elements of the navigation bar.-->
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/filter">Filter</a></li>
+                <li><a href="/reserve">Reserve</a></li> 
+                <li><a href="/bookings">Cancel</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!--this uses jinja2 which allows python code to be used-->
+        <h2>Here are your current reservations</h2>
+        <form action="/bookings" method="POST" role="form">
+            {{ form.csrf }} <!--allows data to be sent-->
+            <div class="form-group">
+                <br> <!--a break tag-->
+                <select name="cancel" class="form-control" multi-ple=multiple id="cancel"> <!--the select tag creates a drop down menu-->
+                    <!--the next statement would create a for loop to allow all the values within the list called reservations-->
+                    <!--the list reservation hold the users reservations-->
+                    {% for re in reservations %} <!--this would create a for loop-->
+                    <option value="{{re}}">{{re}}</option> <!--this would put the each element with the list (reservations into the list box)-->
+                    {% endfor %} <!--this end loop-->
+                </select> <!--closes the select tag-->
+            </div>
+            <button type="submit" class="btn btn-success">Cancel</button> <!--defines the tag element-->
+            <br>
+            <br>
+            <label for="pin">Enter your reservation pin :</label> <!--a la-bel to show the user where to enter their pin-->
+            <input type="text" class="form-control" id="pin" name="pin" placeholder="Enter your pin here"> <!--creates an input for the pin-->
+            <br> <!--a pin to input and select a reservation-->
+        </form>
+
+        <br>
+        <!--jinja2 is also used here-->
+        <!--this section here deines what message to be shown when there is an error in the input-->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+
+        {% for message in messages %}
+        {% if "Error" not in message[1]: %}
+        <div class="alert alert-info">
+            <strong>Success! </strong> {{ message[1] }} <!--defines what should be shown in the , when there is an user reserves computer-->
+        </div>
+        {% endif %}
+
+        {% if "Error" in message[1]: %}
+        <div class="alert alert-warning">
+            {{ message[1] }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+    <br>
+    </div>
+    </div>
+</body>
+</html>
+The second html file is called, ‘filterLayout.html’
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Filter</title> <!--defines the title-->
+    <link rel="stylesheet" media="screen" href="static/bootstrap.min.css" />
+    <link rel="stylesheet" href="static/bootstrap-theme.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+<body>
+    <!--below creates a class for the navigation bar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://www.exe-coll.ac.uk/">Exeter college</a>
+            </div>
+            <!---this would the elements with the naviagation bar, and would define where to go when clicked.-->
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/main">Home</a></li>
+                <li><a href="/filter">Filter</a></li>
+                <li><a href="/reserve">Reserve</a></li>
+                <li><a href="/bookings">Cancel</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+
+        <h2>Reservation details</h2>
+        <form action="/filter" method="POST" role="form">
+            {{ form.csrf }}
+            <div class="form-group">
+                <br />
+                <label for="choice">Select a filter:</label>
+                <br />
+                <select class="form-control" id="choice" name="choice">
+                    <!--this would create a drop down list for the user to use, and select how they would like to filter it.-->
+                    <option>Available</option>
+                    <option>Reserved</option>
+                    <option>Inuse</option>
+                    <option>Available and Reseerved</option>
+                    <option>Available and Inuse</option>
+                    <option>Reserved and Inuse</option>
+                </select>
+                <br />
+                <label for="filter">Results: </label> 
+
+            </div>
+            <button type="submit" class="btn btn-success">Filter</button>
+        </form>
+
+        <br />
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+
+        {% for message in messages %}
+        {% if "Error" not in message[1]: %}
+        <div class="alert alert-info">
+            <strong>Results: </strong> {{ message[1] }}
+        </div>
+        {% endif %}
+
+        {% if "Error" in message[1]: %}
+        <div class="alert alert-warning">
+            {{ message[1] }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    </div>
+    <br />
+    </div>
+    </div>
+</body>
+</html>
