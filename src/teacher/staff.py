@@ -376,7 +376,7 @@ class Accesssystem(object):
 
 if __name__ == '__main__':
     root = Tk()
-    conn_string = "host='localhost' dbname='ExlExample' user='postgres' password='Chimdalu2009'" #A connection string to allow me to connect to the database
+    conn_string = "host='localhost' dbname='ExlExample' user='postgres' password='1111111'" #A connection string to allow me to connect to the database
     conn = psycopg2.connect(conn_string) #get a connection if it cannot be retrived an error would arrive here
     cursor = conn.cursor() #this would return a cursos object so the user can peform queries on the data using this
     my_gui = Accesssystem(root, conn, cursor)
